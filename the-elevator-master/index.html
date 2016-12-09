@@ -1,0 +1,52 @@
+<!doctype html>
+<html ng-app="elevator">
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/elevator.css">
+    <script src="js/angular.min.js"></script>
+    <script src="js/elevator.module.js" charset="UTF-8"></script>
+    <script src="js/elevator.factory.js" charset="UTF-8"></script>    
+    <script src="js/floors.factory.js" charset="UTF-8"></script>
+    <script src="js/app.js" charset="UTF-8"></script>
+
+  </head>
+  <body ng-controller="ElevatorCtrl">
+    <section>
+      <h2>Floor schematics</h2>
+      <table>
+        <tr ng-repeat="floor in floors">
+          <th scope="row" ng-class="car.active(floor.n) &amp;&amp; 'active'">
+            <span ng-show="car.active(floor.n)" ng-bind="car.state()"></span>
+          </th>
+          <td>{{floor.title}}</th>
+          <td ng-class="floor.light">&#x25cf;</td>
+          <td>
+            <button type="button" ng-disabled="car.floor==floor.n || car.occupied;" ng-click="car.callCar(floor.n)">Call</button>
+            <button type="button" ng-disabled="!car.canOpen(floor.n) || floors[floor.n].open || queue==true" ng-click="floor.openFloorDoor(floor.n)">Open door</button>
+          </td>
+        <tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Controls in car</h2>
+      <ul>
+        <li ng-repeat="floor in floors">
+          <button type="button" ng-disabled="!car.occupied || car.open" ng-click="panel.press(floor.n)" ng-class="floor.n == car.floor ? 'arrived' : floor.underline">{{floor.title}}</button>
+        </li>
+        <li>
+          <button class="stop" type="button" ng-disabled="!car.occupied" ng-click="panel.stop()">STOP</button>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>User controls</h2>
+      <button type="button" ng-disabled=" queue == free || !queue || !floors[car.floor].open && !car.occupied || car.open" ng-click="car.openCarDoor(car.floor)">Open car door</button>
+      <button type="button" ng-disabled=" car.nbPersonsInside == 6 || !floors[car.floor].open || !car.open" ng-click="car.stepIn(car.floor)">Step in</button>
+      <button type="button" ng-disabled=" !car.open || !car.occupied" ng-click="car.stepOut(car.floor)">Step out</button>
+      <button type="button" ng-disabled="!car.open" ng-click="car.shutCarDoor()">Shut car door</button>      
+      <p class="informations"> Max Persons : 6 <br> nbPersons {{car.nbPersonsInside}} / 6 </p>
+
+    </section>
+  </body>
+</html>
