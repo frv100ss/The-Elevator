@@ -20,8 +20,8 @@
           <td>{{floor.title}}</th>
           <td ng-class="floor.light">&#x25cf;</td>
           <td>
-            <button type="button" ng-disabled="car.floor==floor.n || car.occupied;" ng-click="car.callCar(floor.n)">Call</button>
-            <button type="button" ng-disabled="!car.canOpen(floor.n) || floors[floor.n].open || queue==true" ng-click="floor.openFloorDoor(floor.n)">Open door</button>
+            <button type="button" ng-disabled="car.floor==floor.n;" ng-click="car.callCar(floor.n)">Call</button>
+            <button type="button" ng-disabled="!car.canOpen(floor.n)" ng-click="floor.openFloorDoor(floor.n)">{{floor.open ? "Close" : "Open"}}</button>
           </td>
         <tr>
       </table>
@@ -31,7 +31,7 @@
       <h2>Controls in car</h2>
       <ul>
         <li ng-repeat="floor in floors">
-          <button type="button" ng-disabled="!car.occupied || car.open" ng-click="panel.press(floor.n)" ng-class="floor.n == car.floor ? 'arrived' : floor.underline">{{floor.title}}</button>
+          <button type="button" ng-disabled="!car.occupied || car.open || floors[car.floor].open " ng-click="panel.press(floor.n)" ng-class="floor.n == car.floor ? 'arrived' : floor.underline">{{floor.title}}</button>
         </li>
         <li>
           <button class="stop" type="button" ng-disabled="!car.occupied" ng-click="panel.stop()">STOP</button>
