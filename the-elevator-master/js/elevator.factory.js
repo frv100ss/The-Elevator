@@ -6,6 +6,7 @@ factory('Elevator', ['Floors', function(floors) {
 
 		function Car() {
 			this.name = "car";
+			this.floorCalled =[];
 		}
 		// Object representing the car
 		Car.prototype = {
@@ -15,7 +16,6 @@ factory('Elevator', ['Floors', function(floors) {
 			},
 			// we could set a Max Charge for the elevator (Let's say 6 persons max for example)
 			nbPersonsInside: 0,
-
 			state: function() {
 				var r = this.occupied ? "Occpd " : "Empty ";
 				switch (this.dir) {
@@ -34,25 +34,18 @@ factory('Elevator', ['Floors', function(floors) {
 
 			// The car can be opened if it's at the current floor
 			canOpen: function(n) {
-				return this.active(n) ? true : false;
+				return this.active(n)? true : false;
 			},
 
 			callCar: function(n) {
 				// It's safer to shut both inner and outer doors before the car movement
 				floors[n].autoShutFloorDoor(n);
 				this.shutCarDoor();
-
-				n > this.floor ? this.dir = 1 : this.dir = -1;
-
 				//let's store the variable here and call it later (in the $interval skeleton)
-				this.floorCalled = n;
-
-				for (var i = 10; i >= 0; i--) {
-					floors[i].light = "";
-					if (i == n) {
-						continue;
-					}
-				}
+				this.floorCalled.push(n);
+				
+				this.floor < 5 ? this.floorCalled.sort() : (this.floorCalled.sort(), this.floorCalled.reverse());
+				console.log(this.floor)
 				floors[n].light = "green";
 			},
 
@@ -63,7 +56,6 @@ factory('Elevator', ['Floors', function(floors) {
 					car.shutCarDoor()
 				};
 				this.occupied = true;
-				for (var i = 10; i >= 0; i--) floors[i].light = "red";
 			},
 
 			stepOut: function(n) {
@@ -83,13 +75,14 @@ factory('Elevator', ['Floors', function(floors) {
 
 				this.open = true;
 				if (this.occupied) {
-					floors[n].openFloorDoor()
+					floors[n].autoOpenFloorDoor(n)
 				};
 			},
 
 			shutCarDoor: function() {
 
 				car.open = false;
+				floors[car.floor].open = false;
 
 			},
 

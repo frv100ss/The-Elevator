@@ -21,12 +21,16 @@ factory('Floors', function() {
 
 
         floor.openFloorDoor = function(n) {
-                this.open = true;
+                !floors[n].open ? floors[n].open = true : floors[n].open = false;
             },
 
-            floor.autoShutFloorDoor = function(n) {
-                floors[n].open = false;
-            }
+        floor.autoShutFloorDoor = function(n) {
+            floors[n].open = false; 
+        }
+        
+        floor.autoOpenFloorDoor = function(n) {
+            floors[n].open = true; 
+        }        
     });
 
     return floors;
