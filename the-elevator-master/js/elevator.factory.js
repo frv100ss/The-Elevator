@@ -12,7 +12,6 @@ factory('Elevator', ['Floors', function(floors) {
 		Car.prototype = {
 			active: function(n) {
 				return this.floor == n;
-
 			},
 			// we could set a Max Charge for the elevator (Let's say 6 persons max for example)
 			nbPersonsInside: 0,
@@ -45,7 +44,6 @@ factory('Elevator', ['Floors', function(floors) {
 				this.floorCalled.push(n);
 				
 				this.floor < 5 ? this.floorCalled.sort() : (this.floorCalled.sort(), this.floorCalled.reverse());
-				console.log(this.floor)
 				floors[n].light = "green";
 			},
 
