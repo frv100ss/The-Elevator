@@ -57,6 +57,7 @@ th {
 }
 th.active {
   background-color: red;
+  width:120px;
 }
 td:nth-child(2) {
   font-size: 150%;
