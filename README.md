@@ -1,3 +1,4 @@
 # Notes
-Tests are included in the Jasmine standalone folder
-To run them you just have to go on SpecRunner.html
+A simple app simulating an elevator. 
+Unit tests are currently updated. 
+They have been made with Jasmine framework for AngularJS.
